@@ -1,6 +1,6 @@
 # DAOs Balances Service
 
-A service to get a sorted DAOs total holdings (ETH + erc20) array in USD via APIs
+A service to get a sorted DAOs total holdings (ETH + erc20) array in USD via APIs <br/> The service returns total balance and formatted total balance for each DAO
 
 ![image](./images/daos-balances-service-graph.jpeg)
 
@@ -17,7 +17,6 @@ The endpoint accepts 4 parameters:
 *exmaple: https://daos-balances-service.herokuapp.com/daosBalance/getDaosBalances/?version=v1&network=http_main&from=0&to=20*
 
 By default, the DAOs are sorted in descending balance order.
-
 
 ## Development
 

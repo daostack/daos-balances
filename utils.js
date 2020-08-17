@@ -1,4 +1,4 @@
-const { WEI } = require('./constants');
+const { WEI, SI } = require('./constants');
 
 /**
  * Given tokens data returns the tokens balance in USD
@@ -10,7 +10,7 @@ const calculateTokensBalance = tokensData => {
     tokensData.forEach(token => {
         const balance = isNaN(token.balance) ? 0 : token.balance;
         const rate = isNaN(token.tokenInfo.price.rate) ? 0 : token.tokenInfo.price.rate;
-        tokenBalance += ( balance * rate ) / WEI;
+        tokenBalance += (balance * rate) / WEI;
     });
     return tokenBalance;
 }
@@ -26,20 +26,36 @@ const calculateEthBalance = ethData => {
 
     // Some balances are in WEI (string) and some are floating points.
     // If it's WEI, convert to floating point number.
-    if (Number.isInteger(parseFloat(balance))){
+    if (Number.isInteger(parseFloat(balance))) {
         balance = balance / WEI;
     }
     return balance * rate;
 }
 
+/**
+ * Given number and precision returns a formatted string with the requested precision.
+ * @param {number} num 
+ * @param {number} digits
+ * @returns {string} Formatted string
+ */
+const numberFormatter = (num, digits) => {
+    let rx = /\.0+$|(\.[0-9]*[1-9])0+$/;
+    let i;
+    for (i = SI.length - 1; i > 0; i--) {
+        if (num >= SI[i].value) {
+            break;
+        }
+    }
+    return (num / SI[i].value).toFixed(digits).replace(rx, "$1") + SI[i].symbol;
+}
 
 /**
- * Given DAO balance data (ETH + tokens) returns the total amount in USD
+ * Given DAO balance data (ETH + tokens) returns the total balance and formatted balance in USD.
  * @param {*} daoBalanceData
- * @returns {string} DAO total holdings in USD
+ * @returns {object} DAO total holdings (balance and formatted balance) in USD
  */
 module.exports.calculateTotalHoldings = daoBalanceData => {
     const ethBalance = calculateEthBalance(daoBalanceData.ETH);
     const tokensBalance = daoBalanceData.tokens ? calculateTokensBalance(daoBalanceData.tokens) : 0;
-    return (ethBalance + tokensBalance).toFixed(2);
+    return { balance: (ethBalance + tokensBalance).toFixed(2), formattedBalance: numberFormatter(ethBalance + tokensBalance, 2) };
 }

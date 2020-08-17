@@ -81,7 +81,7 @@ async function fetchDaosBalances(version, network) {
   }
 
   const daosTotalHoldings = daosBalanceData.map(daoBalanceData => {
-    return { address: daoBalanceData.address, balance: utils.calculateTotalHoldings(daoBalanceData) };
+    return { address: daoBalanceData.address, ...utils.calculateTotalHoldings(daoBalanceData) };
   });
 
   return daosTotalHoldings;
@@ -125,7 +125,7 @@ const fetchAlchemySettings = async () => {
 
   /**
    * Route to get DAOs balances by Alchemy version, network and a range.
-   * @example http://localhost:3001/daosBalance/getDaosBalances/?version=v1&network=http_kovan&from=1&to=0
+   * @example http://localhost:3001/daosBalance/getDaosBalances/?version=v2&network=http_kovan&from=0&to=10
    */
   router.get('/getDaosBalances/', (req, res, next) => {
     const { version, network, from, to } = req.query;

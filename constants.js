@@ -4,3 +4,9 @@ exports.ETHPLORER_API_KEY = 'EK-uReqx-cB4r3E3-sfJSU';
 exports.V1_NETWORKS = ['http_main', 'http_xdai'];
 exports.V2_NETWORKS = ['http_rinkeby', 'http_kovan']; 
 exports.WEI = Math.pow(10,18);
+exports.SI = [
+    { value: 1, symbol: "" },
+    { value: 1E3, symbol: "k" },
+    { value: 1E6, symbol: "M" },
+    { value: 1E9, symbol: "B" },
+];
