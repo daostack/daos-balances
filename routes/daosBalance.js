@@ -8,7 +8,13 @@ const {
   ALCHEMY_V2_SETTINGS_FILE_URL,
   ETHPLORER_API_KEY,
   V1_NETWORKS,
-  V2_NETWORKS } = require('../constants');
+  V2_NETWORKS,
+  POLL_INTERVAL } = require('../constants');
+
+let daosBalances = {
+  v1: {},
+  v2: {}
+};
 
 /**
 * Given Alchemy version and network returns the DAOs from subgraph
@@ -71,7 +77,7 @@ async function fetchDaosBalances(version, network) {
       let daoBalanceData = await fetchDaoTokens(dao.id);
 
       // If there is ETH balance in the vault (v2), sum it to the total ETH balance.
-      if(dao.ethBalance !== undefined){
+      if (dao.ethBalance !== undefined) {
         daoBalanceData.ETH.balance += dao.ethBalance;
       }
 
@@ -105,14 +111,8 @@ const fetchAlchemySettings = async () => {
   );
 }
 
-(async () => {
-  let daosBalances = {
-    v1: {},
-    v2: {}
-  };
-
+const startFetching = async () => {
   await fetchAlchemySettings();
-
   for (network of V1_NETWORKS) {
     daosBalances.v1[network] = (await fetchDaosBalances('v1', network)).sort((a, b) => b.balance - a.balance);
   }
@@ -120,6 +120,11 @@ const fetchAlchemySettings = async () => {
   for (network of V2_NETWORKS) {
     daosBalances.v2[network] = (await fetchDaosBalances('v2', network)).sort((a, b) => b.balance - a.balance);
   }
+}
+
+(async () => {
+  await startFetching();
+  setInterval(startFetching, POLL_INTERVAL);
 
   //console.log(daosBalances);
 
