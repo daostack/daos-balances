@@ -11,11 +11,6 @@ const {
   V2_NETWORKS,
   POLL_INTERVAL } = require('../constants');
 
-let daosBalances = {
-  v1: {},
-  v2: {}
-};
-
 /**
 * Given Alchemy version and network returns the DAOs from subgraph
 * @param {string} version 
@@ -111,7 +106,7 @@ const fetchAlchemySettings = async () => {
   );
 }
 
-const startFetching = async () => {
+const startFetching = async (daosBalances) => {
   await fetchAlchemySettings();
   for (network of V1_NETWORKS) {
     daosBalances.v1[network] = (await fetchDaosBalances('v1', network)).sort((a, b) => b.balance - a.balance);
@@ -120,13 +115,19 @@ const startFetching = async () => {
   for (network of V2_NETWORKS) {
     daosBalances.v2[network] = (await fetchDaosBalances('v2', network)).sort((a, b) => b.balance - a.balance);
   }
+
+  //console.log(daosBalances);
 }
 
 (async () => {
-  await startFetching();
-  setInterval(startFetching, POLL_INTERVAL);
 
-  //console.log(daosBalances);
+  let daosBalances = {
+    v1: {},
+    v2: {}
+  };
+
+  await startFetching(daosBalances);
+  setInterval(() => startFetching(daosBalances), POLL_INTERVAL);
 
   /**
    * Route to get DAOs balances by Alchemy version, network and a range.
