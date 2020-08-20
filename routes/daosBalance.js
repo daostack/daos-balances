@@ -21,7 +21,7 @@ const fetchDaos = (version, network) => axios({
   method: 'POST',
   data: {
     query: `{
-      daos { 
+      daos (where: {register: "registered"}){ 
            id
            ${version === 'v2' ? "ethBalance" : ""}
       }
@@ -135,6 +135,10 @@ const startFetching = async (daosBalances) => {
    */
   router.get('/getDaosBalances/', (req, res, next) => {
     const { version, network, from, to } = req.query;
+    if (!daosBalances[version][network]) {
+      res.send([]);
+      return;
+    }
     res.send(daosBalances[version][network].slice(from, to));
   });
 
