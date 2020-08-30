@@ -1,6 +1,6 @@
 # DAOs Balances Service
 
-A service to get a sorted DAOs total holdings (ETH + erc20) array in USD via APIs <br/> The service returns total balance and formatted total balance for each DAO
+A service to get a sorted **registered** DAOs total holdings (ETH + erc20) array in USD via APIs <br/> The service returns total balance and formatted total balance for each DAO
 
 ![image](./images/daos-balances-service-graph.jpeg)
 
