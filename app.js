@@ -9,6 +9,8 @@ var daosBalanceRouter = require('./routes/daosBalance');
 
 var app = express();
 
+require('dotenv').config({path: __dirname + '/.env'})
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');

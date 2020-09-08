@@ -4,8 +4,6 @@ A service to get a sorted **registered** DAOs total holdings (ETH + erc20) array
 
 ![image](./images/daos-balances-service-graph.jpeg)
 
-**NOTE:** This service is still under development and testing
-
 ## Usage
 
 The endpoint accepts 4 parameters:
