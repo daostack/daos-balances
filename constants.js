@@ -2,7 +2,7 @@ exports.ALCHEMY_V1_SETTINGS_FILE_URL = "https://raw.githubusercontent.com/daosta
 exports.ALCHEMY_V2_SETTINGS_FILE_URL = "https://raw.githubusercontent.com/daostack/alchemy/dev-2/src/subgraph_endpoints.json";
 exports.ETHPLORER_API_KEY = process.env.ETHPLORER_API_KEY;
 exports.V1_NETWORKS = ['http_main', 'http_xdai'];
-exports.V2_NETWORKS = ['http_main', 'http_rinkeby', 'http_kovan'];
+exports.V2_NETWORKS = ['http_main', 'http_xdai', 'http_rinkeby', 'http_kovan'];
 exports.WEI = Math.pow(10,18);
 exports.SI = [
     { value: 1, symbol: "" },
